@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio Profesional</title>
+    <!-- CSS utama -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome untuk ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <h1>Muhamad Fikih Rizaldi</h1>
+            <p>freelancer | UI/UX & Web Developer</p>
+        </div>
+    </header>
+    
+    <!-- Navigasi -->
+    <nav>
+        <ul>
+            <li><a href="#tentang">Tentang Saya</a></li>
+            <li><a href="#keahlian">Keahlian</a></li>
+            <li><a href="#portofolio">Portofolio</a></li>
+            <li><a href="#kontak">Kontak</a></li>
+        </ul>
+    </nav>
+    
+    <!-- Tentang Saya -->
+    <section id="tentang">
+        <h2>Tentang Saya</h2>
+        <div class="about-container">
+            <div class="about-image">
+                <img src="/profil/p.jpg " alt="Foto Profil">
+            </div>
+            <div class="about-text">
+                <p>Selamat datang di website profesional saya! Saya adalah seorang profesional berpengalaman dalam bidang UI/UX developer dan Web Developper. Dengan pengalaman ini, saya telah mengembangkan keahlian dalam bidang UI/UX dan Web.</p>
+                <p>Latar belakang saya meliputi Mahasiswa S1-Informatika dari Universitas Amikom Yogyakarta. Saya memiliki hasrat dalam Jasa Pembuatan suatu web dan selalu berusaha untuk melakukan yang tebaik.</p>
+                <p>Di luar karier profesional, saya menikmati hobi saya sebagai konten kreator. Saya percaya bahwa keseimbangan antara kehidupan profesional dan pribadi sangat penting untuk kreativitas dan produktivitas.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Keahlian -->
+    <section id="keahlian">
+        <h2>Keahlian</h2>
+        <div class="skills-container">
+            <div class="skill-card">
+                <i class="fas fa-code"></i>
+                <h3>Web Developer</h3>
+                <p>Web Developer adalah seorang yang berpengalaman dalam membangun situs web responsif dan aplikasi web menggunakan HTML, CSS, JavaScript, dan php.</p>
+            </div>
+            <div class="skill-card">
+                <i class="fas fa-paint-brush"></i>
+                <h3>UI/UX Design</h3>
+                <p>UI/UX design bertugas untuk merancang antarmuka intuitif dan pengalaman pengguna optimal dengan desain yang estetis dan fungsional.</p>
+            </div>
+            <!-- <div class="skill-card">
+                <i class="fas fa-chart-line"></i>
+                <h3>Keahlian 3</h3>
+                <p>Deskripsi singkat tentang keahlian Anda dalam bidang ini dan bagaimana Anda menerapkannya dalam pekerjaan Anda.</p>
+            </div>
+            <div class="skill-card">
+                <i class="fas fa-cogs"></i>
+                <h3>Keahlian 4</h3>
+                <p>Deskripsi singkat tentang keahlian Anda dalam bidang ini dan bagaimana Anda menerapkannya dalam pekerjaan Anda.</p>
+            </div> -->
+        </div>
+    </section>
+    
+    <!-- Portofolio -->
+    <section id="portofolio">
+        <h2>Portofolio</h2>
+        <div class="portfolio-container">
+            <div class="portfolio-item">
+                <div class="portfolio-image">
+                    <img src="/profil/rental.png" style="width: 200px; margin-left: 30%;" alt="Proyek 1">
+                </div>
+                <div class="portfolio-details">
+                    <h3>Aplikasi Sewa Motor dengan C#</h3>
+                    <p>Aplikasi ini dirancang untuk memudahkan penyewaan motor dengan fitur manajemen data pelanggan, pemesanan, dan pembayaran. Dibangun menggunakan C# dengan antarmuka yang user-friendly serta integrasi database untuk pencatatan transaksi secara efisien.</p>
+                </div>
+            </div>
+            <div class="portfolio-item">
+                <div class="portfolio-image">
+                    <img src="/profil/sewa.png" alt="Proyek 2">
+                </div>
+                <div class="portfolio-details">
+                    <h3>Desain Aplikasi Jual Beli Kendaraan Bekas</h3>
+                    <p>Didesain untuk pengalaman yang mudah, cepat, dan aman. UI intuitif memudahkan pencarian, filter, dan detail kendaraan, sementara UX memastikan alur transaksi yang lancar dan transparan, dari pencarian hingga pembelian.</p>
+                </div>
+            </div>
+            <!-- <div class="portfolio-item">
+                <div class="portfolio-image">
+                    <img src="images/project3.jpg" alt="Proyek 3">
+                </div>
+                <div class="portfolio-details">
+                    <h3>Proyek 3</h3>
+                    <p>Deskripsi singkat tentang proyek ini, termasuk teknologi yang digunakan dan peran Anda dalam proyek tersebut.</p>
+                </div>
+            </div> -->
+        </div>
+    </section>
+    
+    <!-- Kontak -->
+    <section id="kontak">
+        <h2>Kontak</h2>
+        <div class="contact-form">
+            <div class="form-group">
+                <label for="name">Nama</label>
+                <input type="text" id="name" name="name" placeholder="Nama Anda">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Email Anda">
+            </div>
+            <div class="form-group">
+                <label for="subject">Subjek</label>
+                <input type="text" id="subject" name="subject" placeholder="Subjek pesan">
+            </div>
+            <div class="form-group">
+                <label for="message">Pesan</label>
+                <textarea id="message" name="message" placeholder="Tulis pesan Anda di sini..."></textarea>
+            </div>
+            <button type="button" id="submit-btn">Kirim Pesan</button>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-github"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+        <p>&copy; 2025 Nama Saya. Hak Cipta Dilindungi.</p>
+    </footer>
+    
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
