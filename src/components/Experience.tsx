@@ -107,7 +107,7 @@ export default function Experience() {
       badge: "🏅",
       color: "bg-[#DBEAFE] text-[#1E40AF]",
       link: "#",
-      image: "/sertifikat/lastmile.jpeg",
+      image: "/Sertifikat/lastmile.jpeg",
     },
     {
       title: "Machine Learning Operations (MLOps) for Generative AI",
@@ -117,7 +117,7 @@ export default function Experience() {
       badge: "⚙️",
       color: "bg-[#DCFCE7] text-[#14532D]",
       link: "#",
-      image: "/sertifikat/Machine Learning Operations (MLOps) for Generative AI.png",
+      image: "/Sertifikat/Machine Learning Operations (MLOps) for Generative AI.png",
     },
     {
       title: "Prompt Design in Agent Platform",
@@ -127,7 +127,7 @@ export default function Experience() {
       badge: "🧠",
       color: "bg-[#F3E8FF] text-[#6B21A8]",
       link: "#",
-      image: "/sertifikat/Prompt Design in Agent Platform.png",
+      image: "/Sertifikat/Prompt Design in Agent Platform.png",
     },
     {
       title: "CCNA: Introduction to Networks",
@@ -137,7 +137,7 @@ export default function Experience() {
       badge: "🌐",
       color: "bg-[#FEF3C7] text-[#92400E]",
       link: "#",
-      image: "/sertifikat/Cisco.jpeg",
+      image: "/Sertifikat/Cisco.jpeg",
     },
   ];
 
