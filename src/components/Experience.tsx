@@ -192,6 +192,7 @@ export default function Experience() {
               </div>
               <button
                 onClick={() => setSelectedCert(null)}
+                aria-label="Tutup modal"
                 className="w-8 h-8 rounded-full bg-[#E7E5E4] hover:bg-[#D6D3D1] text-[#1C1917] flex items-center justify-center transition-colors font-bold text-sm"
               >
                 ✕
