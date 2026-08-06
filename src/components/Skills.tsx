@@ -1,81 +1,69 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useLanguage } from "../context/Providers";
 
-/* SVG icons inline to avoid external dependency */
 const icons = {
+  cloud: (
+    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z" />
+    </svg>
+  ),
   code: (
-    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" />
     </svg>
   ),
   chart: (
-    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-    </svg>
-  ),
-  database: (
-    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
-    </svg>
-  ),
-  cloud: (
-    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zm9-7.5c0-.621.504-1.125 1.125-1.125h2.25C16.496 4.5 17 5.004 17 5.625v14.25c0 .621-.504 1.125-1.125 1.125h-2.25A1.125 1.125 0 0112 19.875V5.625zm-4.5 7.5c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v6.75c0 .621-.504 1.125-1.125 1.125H8.625A1.125 1.125 0 017.5 19.875v-6.75z" />
     </svg>
   ),
 };
 
-function SkillCard({
-  skill,
-  index,
-}: {
-  skill: { title: string; desc: string; icon: React.ReactNode; tags: string[] };
-  index: number;
-}) {
+function useReveal() {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
-
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setVisible(true);
-      },
-      { threshold: 0.15 }
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } },
+      { threshold: 0.1 }
     );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
+    obs.observe(el);
+    return () => obs.disconnect();
   }, []);
+  return { ref, visible };
+}
 
+interface SkillItem {
+  title: string;
+  desc: string;
+  icon: React.ReactNode;
+  tags: string[];
+  accent: string;
+  iconBg: string;
+}
+
+function SkillCard({ skill, index }: { skill: SkillItem; index: number }) {
+  const { ref, visible } = useReveal();
   return (
     <div
       ref={ref}
-      className={`group bg-white border border-card-border p-8 rounded-2xl flex flex-col transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:border-primary/50 cursor-pointer ${
-        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+      className={`group bg-white border border-[#E7E5E4] rounded-2xl p-7 flex flex-col transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 hover:shadow-lg hover:shadow-stone-200/80 hover:border-[#D6D3D1] ${
+        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
       }`}
-      style={{ transitionDelay: `${index * 100}ms` }}
+      style={{ transitionDelay: `${index * 80}ms` }}
     >
-      {/* Icon */}
-      <div className="w-16 h-16 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-all duration-300">
+      <div className={`w-11 h-11 ${skill.iconBg} rounded-xl flex items-center justify-center mb-5 ${skill.accent}`}>
         {skill.icon}
       </div>
-
-      {/* Title */}
-      <h3 className="text-xl font-bold text-dark mb-3 group-hover:text-primary transition-colors duration-300">
-        {skill.title}
-      </h3>
-
-      {/* Description */}
-      <p className="text-gray-text leading-relaxed mb-5 flex-1">{skill.desc}</p>
-
-      {/* Tags */}
-      <div className="flex flex-wrap gap-2">
+      <h3 className="text-[15px] font-semibold text-[#1C1917] mb-2.5 leading-snug">{skill.title}</h3>
+      <p className="text-sm text-[#78716C] leading-relaxed mb-6 flex-1">{skill.desc}</p>
+      <div className="flex flex-wrap gap-1.5">
         {skill.tags.map((tag) => (
-          <span
-            key={tag}
-            className="text-xs font-medium px-3 py-1 rounded-full bg-bg-light text-primary border border-primary/20"
-          >
+          <span key={tag} className="text-[11px] font-medium px-2.5 py-1 rounded-full bg-[#F5F5F4] text-[#78716C]">
             {tag}
           </span>
         ))}
@@ -86,47 +74,42 @@ function SkillCard({
 
 export default function Skills() {
   const { t } = useLanguage();
-  
-  const skillsList = [
+
+  const skillsList: SkillItem[] = [
     {
-      title: t("skills.web"),
-      desc: t("skills.web.desc"),
+      title: "Artificial Intelligence & Generative AI",
+      desc: "Mengembangkan aplikasi AI menggunakan LLM, Prompt Engineering, dan RAG. Berpengalaman integrasi Google Gemini API dan Google Cloud.",
+      icon: icons.cloud,
+      tags: ["Python", "Gemini API", "LangChain", "FAISS", "RAG", "Vertex AI", "BigQuery"],
+      accent: "text-[#92400E]",
+      iconBg: "bg-[#FEF3C7]",
+    },
+    {
+      title: "Full Stack Development",
+      desc: "Membangun aplikasi web responsif dengan React dan Next.js, serta backend dengan FastAPI dan Node.js.",
       icon: icons.code,
-      tags: ["React", "Next.js", "Tailwind CSS", "TypeScript"],
+      tags: ["React", "Next.js", "TypeScript", "Tailwind CSS", "FastAPI", "Node.js", "Git"],
+      accent: "text-[#1E40AF]",
+      iconBg: "bg-[#DBEAFE]",
     },
     {
-      title: t("skills.ml"),
-      desc: t("skills.ml.desc"),
+      title: "Machine Learning & Data",
+      desc: "Pengolahan data, pemodelan ML, analisis, dan visualisasi untuk menghasilkan insight berbasis data yang akurat.",
       icon: icons.chart,
-      tags: ["Scikit-learn", "TensorFlow", "XGBoost", "Jupyter"],
-    },
-    {
-      title: t("skills.data"),
-      desc: t("skills.data.desc"),
-      icon: icons.database,
-      tags: ["Python", "Pandas", "NumPy", "SQL"],
+      tags: ["Scikit-learn", "TensorFlow", "Pandas", "NumPy", "SQL", "Jupyter", "Python"],
+      accent: "text-[#14532D]",
+      iconBg: "bg-[#DCFCE7]",
     },
   ];
 
   return (
-    <section id="keahlian" className="py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <span className="inline-block text-primary font-semibold text-sm uppercase tracking-widest mb-3">
-            {t("skills.subtitle")}
-          </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-dark mb-4">
-            {t("skills.title")}
-          </h2>
-          <p className="text-gray-text max-w-xl mx-auto">
-            {t("skills.desc")}
-          </p>
-          <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent mx-auto mt-6 rounded-full" />
+    <section id="keahlian" className="py-28 bg-white">
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="mb-14">
+          <h2 className="text-3xl md:text-4xl font-bold text-[#1C1917] mb-3 tracking-tight">{t("skills.title")}</h2>
+          <p className="text-[#78716C] text-base max-w-md">{t("skills.desc")}</p>
         </div>
-
-        {/* Skills Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {skillsList.map((skill, i) => (
             <SkillCard key={i} skill={skill} index={i} />
           ))}

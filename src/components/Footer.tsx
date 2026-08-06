@@ -1,107 +1,106 @@
 "use client";
 
 import { useLanguage } from "../context/Providers";
-import { ArrowUp } from "lucide-react";
 
 export default function Footer() {
   const { t } = useLanguage();
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   return (
-    <footer className="relative bg-gradient-to-b from-[#0f172a] to-[#020617] text-white overflow-hidden">
-      {/* Decorative Top Border/Glow */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-50" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-24 bg-primary/20 blur-[80px] pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto px-6 pt-20 pb-10 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
-          
-          {/* Brand & Description */}
-          <div className="md:col-span-5 lg:col-span-4">
-            <div className="text-3xl font-extrabold mb-6 tracking-tight flex items-center gap-2 group cursor-pointer" onClick={scrollToTop}>
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white text-sm group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-primary/30">
+    <footer className="bg-[#1C1917] text-[#FAFAF9]">
+      <div className="max-w-6xl mx-auto px-6 pt-16 pb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 pb-12 border-b border-white/10">
+          {/* Brand */}
+          <div>
+            <div
+              className="flex items-center gap-2.5 mb-4 cursor-pointer group w-fit"
+              onClick={scrollToTop}
+            >
+              <div className="w-8 h-8 bg-[#78350F] rounded-lg flex items-center justify-center text-[#FEF3C7] font-bold text-xs group-hover:bg-[#92400E] transition-colors">
                 FR
               </div>
-              <span>Fikih<span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Rizaldi</span></span>
+              <span className="font-bold text-[#FAFAF9] tracking-tight">
+                Fikih<span className="text-[#D97706]">Rizaldi</span>
+              </span>
             </div>
-            <p className="text-gray-400 leading-relaxed text-sm mb-8 pr-4">
+            <p className="text-sm text-[#78716C] leading-relaxed max-w-[22ch]">
               {t("footer.desc")}
             </p>
-            
-            {/* Social Icons with brand colors on hover */}
-            <div className="flex gap-4">
-              {/* Github */}
-              <a href="https://github.com/FikihRizaldi" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:bg-[#333] hover:text-white hover:border-[#333] hover:shadow-[0_0_15px_rgba(255,255,255,0.2)] hover:-translate-y-1 transition-all duration-300">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-              </a>
-              {/* LinkedIn */}
-              <a href="https://www.linkedin.com/in/muhamad-fikih-rizaldi-b04528374" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:bg-[#0077b5] hover:text-white hover:border-[#0077b5] hover:shadow-[0_0_15px_rgba(0,119,181,0.4)] hover:-translate-y-1 transition-all duration-300">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-              </a>
-              {/* Instagram */}
-              <a href="https://www.instagram.com/fikihrz_" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:bg-gradient-to-tr hover:from-[#f09433] hover:via-[#dc2743] hover:to-[#bc1888] hover:text-white hover:border-transparent hover:shadow-[0_0_15px_rgba(220,39,67,0.4)] hover:-translate-y-1 transition-all duration-300">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
-                </svg>
-              </a>
-            </div>
           </div>
 
-          {/* Quick Links */}
-          <div className="md:col-span-3 lg:col-span-4 md:pl-10">
-            <h4 className="text-lg font-semibold mb-6 text-white tracking-wide">Navigasi</h4>
-            <ul className="space-y-4">
-              <li><a href="#beranda" className="text-gray-400 hover:text-primary transition-colors flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity"></span>{t("nav.home")}</a></li>
-              <li><a href="#keahlian" className="text-gray-400 hover:text-primary transition-colors flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity"></span>{t("nav.skills")}</a></li>
-              <li><a href="#portofolio" className="text-gray-400 hover:text-primary transition-colors flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity"></span>{t("nav.portfolio")}</a></li>
-              <li><a href="#pengalaman" className="text-gray-400 hover:text-primary transition-colors flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity"></span>{t("nav.experience")}</a></li>
+          {/* Navigation */}
+          <div>
+            <h4 className="text-[11px] font-bold text-[#78716C] uppercase tracking-widest mb-5">Navigasi</h4>
+            <ul className="space-y-3">
+              {[
+                { href: "#beranda", label: "Beranda" },
+                { href: "#keahlian", label: "Keahlian" },
+                { href: "#portofolio", label: "Portofolio" },
+                { href: "#pengalaman", label: "Pengalaman" },
+              ].map((link) => (
+                <li key={link.href}>
+                  <a href={link.href} className="text-sm text-[#A8A29E] hover:text-[#FAFAF9] transition-colors">
+                    {link.label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Contact Details */}
-          <div className="md:col-span-4 lg:col-span-4">
-            <h4 className="text-lg font-semibold mb-6 text-white tracking-wide">Kontak Info</h4>
-            <ul className="space-y-5">
-              <li className="flex items-start gap-4 text-gray-400 group">
-                <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex flex-shrink-0 items-center justify-center group-hover:bg-primary/20 group-hover:text-primary group-hover:border-primary/30 transition-all">
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                </div>
-                <div>
-                  <div className="text-sm font-medium text-white mb-1">Email</div>
-                  <a href="https://mail.google.com/mail/?view=cm&fs=1&to=fikihrz31@gmail.com" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors break-all">
-                    fikihrz31@gmail.com
-                  </a>
-                </div>
+          {/* Contact */}
+          <div>
+            <h4 className="text-[11px] font-bold text-[#78716C] uppercase tracking-widest mb-5">Kontak</h4>
+            <ul className="space-y-3">
+              <li>
+                <a href="mailto:fikihrz31@gmail.com" className="group flex items-center gap-3 text-sm text-[#A8A29E] hover:text-[#FAFAF9] transition-colors">
+                  <span className="w-6 h-6 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors">
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                    </svg>
+                  </span>
+                  fikihrz31@gmail.com
+                </a>
               </li>
-              <li className="flex items-start gap-4 text-gray-400 group">
-                <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex flex-shrink-0 items-center justify-center group-hover:bg-primary/20 group-hover:text-primary group-hover:border-primary/30 transition-all">
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                </div>
-                <div>
-                  <div className="text-sm font-medium text-white mb-1">Lokasi</div>
-                  <span>Indonesia</span>
-                </div>
+              <li>
+                <a href="https://github.com/FikihRizaldi" target="_blank" rel="noopener noreferrer"
+                  className="group flex items-center gap-3 text-sm text-[#A8A29E] hover:text-[#FAFAF9] transition-colors">
+                  <span className="w-6 h-6 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors">
+                    <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                    </svg>
+                  </span>
+                  github.com/FikihRizaldi
+                </a>
+              </li>
+              <li className="flex items-center gap-3 text-sm text-[#78716C]">
+                <span className="w-6 h-6 rounded-full bg-white/5 flex items-center justify-center">
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                  </svg>
+                </span>
+                Yogyakarta, Indonesia
               </li>
             </ul>
           </div>
         </div>
-        
-        {/* Bottom Bar */}
-        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
-          <p className="mb-4 md:mb-0">&copy; {new Date().getFullYear()} Fikih Rizaldi. All rights reserved.</p>
-          
-          {/* Back to top button */}
-          <button 
+
+        {/* Bottom bar */}
+        <div className="pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <p className="text-xs text-[#57534E]">
+            &copy; {new Date().getFullYear()} Muhamad Fikih Rizaldi. All rights reserved.
+          </p>
+          <button
             onClick={scrollToTop}
-            className="flex items-center gap-2 hover:text-white transition-colors group"
+            className="flex items-center gap-2 text-xs text-[#78716C] hover:text-[#FAFAF9] transition-colors group"
           >
-            <span>Kembali ke atas</span>
-            <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all">
-              <ArrowUp className="w-4 h-4" />
-            </div>
+            Kembali ke atas
+            <span className="w-6 h-6 border border-white/10 rounded-full flex items-center justify-center group-hover:border-white/30 transition-colors">
+              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
+              </svg>
+            </span>
           </button>
         </div>
       </div>

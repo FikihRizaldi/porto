@@ -2,9 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-
 import { useLanguage } from "../context/Providers";
-import { Languages } from "lucide-react";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -18,121 +16,88 @@ export default function Header() {
   }, []);
 
   const navLinks = [
-    { href: "#beranda", label: t("nav.home") },
+    { href: "#beranda",   label: t("nav.home") },
     { href: "#keahlian", label: t("nav.skills") },
     { href: "#portofolio", label: t("nav.portfolio") },
     { href: "#pengalaman", label: t("nav.experience") },
   ];
 
   return (
-    <header
-      className={`fixed w-full top-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-white/80 backdrop-blur-lg shadow-lg border-b border-card-border"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <header className={`fixed w-full top-0 z-50 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+      scrolled
+        ? "bg-[#FAFAF9]/90 backdrop-blur-md shadow-sm shadow-stone-200 border-b border-[#E7E5E4]"
+        : "bg-transparent"
+    }`}>
+      <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
         {/* Logo */}
-        <Link href="#beranda" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-extrabold text-lg group-hover:scale-110 transition-transform duration-300">
+        <Link href="#beranda" className="flex items-center gap-2.5 group">
+          <div className="w-8 h-8 bg-[#1C1917] rounded-lg flex items-center justify-center text-[#FAFAF9] font-bold text-xs group-hover:bg-[#78350F] transition-colors duration-300">
             FR
           </div>
-          <span
-            className={`font-bold text-xl hidden sm:block transition-colors duration-300 text-dark`}
-          >
-            Fikih<span className="text-primary">Rizaldi</span>
+          <span className="font-bold text-[#1C1917] hidden sm:block tracking-tight">
+            Fikih<span className="text-[#78350F]">Rizaldi</span>
           </span>
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex gap-8">
+        <nav className="hidden md:flex items-center gap-7">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`text-sm font-medium transition-colors duration-300 hover:text-primary ${
-                scrolled ? "text-gray-text" : "text-dark"
-              }`}
+              className="text-sm font-medium text-[#78716C] hover:text-[#1C1917] transition-colors duration-200"
             >
               {link.label}
             </Link>
           ))}
         </nav>
 
-        <div className="hidden md:flex items-center gap-4">
-          <button 
+        {/* Right actions */}
+        <div className="hidden md:flex items-center gap-3">
+          <button
             onClick={() => setLang(lang === "id" ? "en" : "id")}
-            className={`p-2 rounded-full transition-all duration-300 ${scrolled ? 'text-dark hover:bg-gray-100' : 'text-dark hover:bg-white/10'}`}
-            title="Ganti Bahasa"
+            className="text-xs font-semibold text-[#78716C] hover:text-[#1C1917] border border-[#D6D3D1] hover:border-[#A8A29E] rounded-full px-3 py-1.5 transition-all duration-200"
           >
-            <Languages className="w-5 h-5" />
+            {lang.toUpperCase()}
           </button>
-          <div className="hidden md:flex items-center gap-4 border-l border-gray-300 pl-6 ml-2"></div>
           <a
             href="/CV_Muhamad_Fikih_Rizaldi.pdf"
             download
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-medium transition-all duration-300 ${
-              scrolled
-                ? "bg-primary text-white shadow-md hover:shadow-lg hover:-translate-y-0.5"
-                : "border border-primary text-primary hover:bg-primary hover:text-white"
-            }`}
+            className="inline-flex items-center gap-2 bg-[#1C1917] text-[#FAFAF9] text-sm font-semibold px-5 py-2 rounded-full hover:bg-[#292524] active:scale-[0.98] transition-all duration-200 shadow-sm"
           >
             {t("hero.cta.download")}
           </a>
         </div>
 
-        {/* Mobile Hamburger */}
+        {/* Mobile hamburger */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden flex flex-col gap-1.5 cursor-pointer"
+          className="md:hidden p-2 flex flex-col gap-1.5"
           aria-label="Toggle menu"
         >
-          <span
-            className={`w-6 h-0.5 transition-all duration-300 ${
-              mobileOpen
-                ? "rotate-45 translate-y-2 bg-dark"
-                : "bg-dark"
-            }`}
-          />
-          <span
-            className={`w-6 h-0.5 transition-all duration-300 ${
-              mobileOpen
-                ? "opacity-0"
-                : "bg-dark"
-            }`}
-          />
-          <span
-            className={`w-6 h-0.5 transition-all duration-300 ${
-              mobileOpen
-                ? "-rotate-45 -translate-y-2 bg-dark"
-                : "bg-dark"
-            }`}
-          />
+          <span className={`w-5 h-0.5 bg-[#1C1917] transition-all duration-300 ${mobileOpen ? "rotate-45 translate-y-2" : ""}`} />
+          <span className={`w-5 h-0.5 bg-[#1C1917] transition-all duration-300 ${mobileOpen ? "opacity-0" : ""}`} />
+          <span className={`w-5 h-0.5 bg-[#1C1917] transition-all duration-300 ${mobileOpen ? "-rotate-45 -translate-y-2" : ""}`} />
         </button>
       </div>
 
       {/* Mobile Menu */}
-      <div
-        className={`md:hidden transition-all duration-500 overflow-hidden ${
-          mobileOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-        } bg-white/95 backdrop-blur-lg border-t border-card-border`}
-      >
-        <div className="px-6 py-4 flex flex-col gap-4">
+      <div className={`md:hidden overflow-hidden transition-all duration-300 ${mobileOpen ? "max-h-80" : "max-h-0"} bg-[#FAFAF9]/95 backdrop-blur-md border-t border-[#E7E5E4]`}>
+        <div className="px-6 py-5 flex flex-col gap-1">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               onClick={() => setMobileOpen(false)}
-              className="text-dark font-medium hover:text-primary transition-colors py-2"
+              className="text-[#78716C] font-medium hover:text-[#1C1917] py-2.5 border-b border-[#F5F5F4] last:border-0 transition-colors"
             >
               {link.label}
             </Link>
           ))}
-          <a 
+          <a
             href="/CV_Muhamad_Fikih_Rizaldi.pdf"
             download
-            className="block text-center w-full border-2 border-primary text-primary hover:bg-primary hover:text-white px-6 py-2.5 rounded-full font-semibold transition-all duration-300 cursor-pointer"
+            className="mt-4 text-center bg-[#1C1917] text-[#FAFAF9] font-semibold py-3 rounded-full hover:bg-[#292524] transition-colors"
           >
             {t("hero.cta.download")}
           </a>
