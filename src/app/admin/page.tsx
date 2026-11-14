@@ -952,7 +952,7 @@ export default function AdminPage() {
               href="/"
               className="text-xs font-semibold text-indigo-600 hover:text-indigo-800 transition-colors"
             >
-              â† Kembali ke Portofolio Publik
+              Kembali ke Portofolio Publik
             </Link>
           </div>
         </div>
@@ -1737,7 +1737,7 @@ export default function AdminPage() {
                         </div>
                         <div>
                           <span className="text-[10px] font-semibold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full">
-                            {p.category} Â· {p.year}
+                            {p.category} • {p.year}
                           </span>
                           <h4 className="text-sm font-bold text-slate-900 mt-1">{p.title}</h4>
                           <p className="text-xs text-slate-500 line-clamp-1">{p.desc}</p>
@@ -2062,7 +2062,7 @@ export default function AdminPage() {
                     >
                       <div>
                         <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full">
-                          {(item.type === "education" ? "Pendidikan Formal" : item.type === "work" ? "Pengalaman Kerja" : (item.type || "Riwayat")) + " · " + item.period}
+                          {(item.type === "education" ? "Pendidikan Formal" : item.type === "work" ? "Pengalaman Kerja" : (item.type || "Riwayat")) + " • " + item.period}
                         </span>
                         <h4 className="text-sm font-bold text-slate-900 mt-1">{item.role}</h4>
                         <p className="text-xs text-indigo-600 font-semibold">{item.organization}</p>
@@ -2234,7 +2234,7 @@ export default function AdminPage() {
                           <Image src={cert.image || "/placeholder.png"} alt={cert.title} fill className="object-cover" />
                         </div>
                         <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-50 text-indigo-700">
-                          {cert.badge} Â· {cert.year}
+                          {cert.badge} • {cert.year}
                         </span>
                         <h4 className="text-sm font-bold text-slate-900 mt-1 leading-snug">{cert.title}</h4>
                         <p className="text-xs text-slate-500 mt-0.5">{cert.issuer}</p>
@@ -2334,7 +2334,7 @@ export default function AdminPage() {
                     value={profileForm.available_tagline || ""}
                     onChange={(e) => setProfileForm({ ...profileForm, available_tagline: e.target.value })}
                     className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs"
-                    placeholder="Available for Opportunities Â· Yogyakarta (UTC+7)"
+                    placeholder="Available for Opportunities • Yogyakarta (UTC+7)"
                   />
                 </div>
 
