@@ -3,12 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "build": "cd frontend && npm install && npm run build",
+    "start": "cd frontend && npm start",
     "dev": "concurrently -n \"BACKEND,FRONTEND\" -c \"blue,magenta\" \"npm run dev:backend\" \"npm run dev:frontend\"",
     "dev:backend": "cd backend && npm run dev",
     "dev:frontend": "cd frontend && npm run dev",
-    "start": "concurrently -n \"BACKEND,FRONTEND\" -c \"blue,magenta\" \"npm run start:backend\" \"npm run start:frontend\"",
-    "start:backend": "cd backend && npm start",
-    "start:frontend": "cd frontend && npm start",
     "build:frontend": "cd frontend && npm run build",
     "reset-password": "node backend/set-admin.js"
   },
@@ -16,4 +15,3 @@
     "concurrently": "^9.1.2"
   }
 }
-

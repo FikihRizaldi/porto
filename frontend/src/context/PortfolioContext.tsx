@@ -329,17 +329,39 @@ interface PortfolioContextType {
   data: PortfolioData;
   isLoading: boolean;
   refreshPortfolio: () => Promise<void>;
+  updatePortfolioLocally: (newData: PortfolioData) => void;
 }
 
 const PortfolioContext = createContext<PortfolioContextType>({
   data: defaultPortfolio,
   isLoading: false,
   refreshPortfolio: async () => {},
+  updatePortfolioLocally: () => {},
 });
 
 export function PortfolioProvider({ children }: { children: ReactNode }) {
   const [data, setData] = useState<PortfolioData>(defaultPortfolio);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  // Initialize from localStorage if present
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("fikih_portfolio_data");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed && parsed.profile) {
+          setData(parsed);
+        }
+      }
+    } catch (e) {}
+  }, []);
+
+  const updatePortfolioLocally = useCallback((newData: PortfolioData) => {
+    setData(newData);
+    try {
+      localStorage.setItem("fikih_portfolio_data", JSON.stringify(newData));
+    } catch (e) {}
+  }, []);
 
   const fetchPortfolio = useCallback(async () => {
     try {
@@ -353,10 +375,28 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
         const json = await res.json();
         if (json && json.profile) {
           setData(json);
+          try {
+            localStorage.setItem("fikih_portfolio_data", JSON.stringify(json));
+          } catch (e) {}
         }
+      } else {
+        // Fallback to local storage if API is not active
+        try {
+          const saved = localStorage.getItem("fikih_portfolio_data");
+          if (saved) {
+            const parsed = JSON.parse(saved);
+            if (parsed && parsed.profile) setData(parsed);
+          }
+        } catch (e) {}
       }
     } catch (err) {
-      console.warn("Could not reach backend API, using cached/default portfolio data.", err);
+      try {
+        const saved = localStorage.getItem("fikih_portfolio_data");
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (parsed && parsed.profile) setData(parsed);
+        }
+      } catch (e) {}
     } finally {
       setIsLoading(false);
     }
@@ -372,6 +412,7 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
         data,
         isLoading,
         refreshPortfolio: fetchPortfolio,
+        updatePortfolioLocally,
       }}
     >
       {children}

@@ -3,8 +3,10 @@ const path = require("path");
 const fs = require("fs");
 const bcrypt = require("bcryptjs");
 
-// Ensure data folder exists
-const dataDir = path.join(__dirname, "data");
+// Use /tmp on Vercel (serverless), local data/ otherwise
+const dataDir = process.env.VERCEL
+  ? "/tmp"
+  : path.join(__dirname, "data");
 if (!fs.existsSync(dataDir)) {
   fs.mkdirSync(dataDir, { recursive: true });
 }
