@@ -75,3 +75,6 @@ $RECYCLE.BIN/
 *.sublime-project
 *.swp
 *.swo
+
+.vercel
+.env*

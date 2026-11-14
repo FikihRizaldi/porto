@@ -78,7 +78,9 @@ export default function AdminPage() {
 
   // Check saved login token on mount
   useEffect(() => {
-    const savedToken = localStorage.getItem("admin_token");
+    localStorage.removeItem("admin_token");
+    sessionStorage.removeItem("admin_token");
+    const savedToken = sessionStorage.getItem("admin_token");
     if (savedToken) {
       setToken(savedToken);
     }
@@ -155,14 +157,14 @@ export default function AdminPage() {
 
       if (res && res.ok) {
         const json = await res.json();
-        localStorage.setItem("admin_token", json.token);
+        sessionStorage.setItem("admin_token", json.token);
         setToken(json.token);
         showToast("Selamat datang di Admin Control Center!");
       } else {
         const savedPass = localStorage.getItem("fikih_custom_admin_pass") || "admin123";
         if (cleanUser === "admin" && (cleanPass === savedPass || cleanPass === "admin123")) {
           const fallbackToken = "standalone-admin-session-" + Date.now();
-          localStorage.setItem("admin_token", fallbackToken);
+          sessionStorage.setItem("admin_token", fallbackToken);
           setToken(fallbackToken);
           showToast("Selamat datang di Admin Control Center!");
         } else {
@@ -179,6 +181,7 @@ export default function AdminPage() {
 
   const handleLogout = () => {
     localStorage.removeItem("admin_token");
+    sessionStorage.removeItem("admin_token");
     setToken(null);
   };
 
