@@ -376,10 +376,14 @@ export function getPortfolioData(): PortfolioData {
 }
 
 export function savePortfolioData(data: PortfolioData): void {
-  globalThis.__portfolioCache = data;
+  const dataWithTime = {
+    ...data,
+    _lastUpdated: (data as any)._lastUpdated || Date.now(),
+  };
+  globalThis.__portfolioCache = dataWithTime as any;
   const filePath = getStoragePath();
   try {
-    fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
+    fs.writeFileSync(filePath, JSON.stringify(dataWithTime, null, 2), "utf-8");
   } catch (e) {}
 }
 

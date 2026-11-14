@@ -373,38 +373,75 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const updatePortfolioLocally = useCallback((newData: PortfolioData) => {
-    setData(newData);
+    const dataWithTimestamp = {
+      ...newData,
+      _lastUpdated: Date.now(),
+    };
+    setData(dataWithTimestamp as any);
     try {
-      localStorage.setItem("fikih_portfolio_data", JSON.stringify(newData));
+      localStorage.setItem("fikih_portfolio_data", JSON.stringify(dataWithTimestamp));
+    } catch (e) {}
+
+    // Proactively sync to server
+    try {
+      fetch("/api/backend/portfolio", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dataWithTimestamp),
+      }).catch(() => {});
     } catch (e) {}
   }, []);
 
   const fetchPortfolio = useCallback(async () => {
+    let localData: any = null;
+    try {
+      const saved = localStorage.getItem("fikih_portfolio_data");
+      if (saved) {
+        localData = JSON.parse(saved);
+      }
+    } catch (e) {}
+
     try {
       const res = await fetch("/api/backend/portfolio", { cache: "no-store" });
       if (res.ok) {
         const json = await res.json();
         if (json && json.profile) {
-          setData(json);
-          try {
-            localStorage.setItem("fikih_portfolio_data", JSON.stringify(json));
-          } catch (e) {}
+          // Hanya timpa data lokal JIKA data dari server lebih baru atau jika lokal belum punya timestamp edit
+          const serverTime = (json as any)._lastUpdated || 0;
+          const localTime = localData?._lastUpdated || 0;
+
+          if (serverTime >= localTime && serverTime > 0) {
+            setData(json);
+            try {
+              localStorage.setItem("fikih_portfolio_data", JSON.stringify(json));
+            } catch (e) {}
+          } else if (localData && localData.profile) {
+            // Data lokal pengguna lebih baru daripada data server (server baru saja cold-restart)
+            // Pertahankan data lokal dan kirim balik ke server agar server terupdate!
+            setData(localData);
+            try {
+              fetch("/api/backend/portfolio", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(localData),
+              }).catch(() => {});
+            } catch (e) {}
+          } else {
+            setData(json);
+            try {
+              localStorage.setItem("fikih_portfolio_data", JSON.stringify(json));
+            } catch (e) {}
+          }
           setIsLoading(false);
           return;
         }
       }
     } catch (err) {}
 
-    // Fallback to localStorage
-    try {
-      const saved = localStorage.getItem("fikih_portfolio_data");
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (parsed && parsed.profile) {
-          setData(parsed);
-        }
-      }
-    } catch (e) {}
+    // Fallback to localStorage if fetch fails
+    if (localData && localData.profile) {
+      setData(localData);
+    }
     setIsLoading(false);
   }, []);
 
