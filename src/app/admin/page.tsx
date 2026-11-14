@@ -18,21 +18,78 @@ export default function AdminPage() {
   const [authError, setAuthError] = useState<string | null>(null);
   const [authLoading, setAuthLoading] = useState<boolean>(false);
 
-  // Security: Math Captcha & Intruder Lockout State
-  const [captchaProblem, setCaptchaProblem] = useState<{ num1: number; num2: number; ans: number }>({ num1: 3, num2: 4, ans: 7 });
+  // Security: Canvas Visual Image Captcha & Intruder Lockout State
+  const [captchaCode, setCaptchaCode] = useState<string>("");
   const [captchaInput, setCaptchaInput] = useState<string>("");
+  const [captchaImage, setCaptchaImage] = useState<string>("");
   const [failedAttempts, setFailedAttempts] = useState<number>(0);
   const [lockoutUntil, setLockoutUntil] = useState<number>(0);
   const [lockoutRemaining, setLockoutRemaining] = useState<number>(0);
 
   const generateCaptcha = () => {
-    const n1 = Math.floor(Math.random() * 8) + 2;
-    const n2 = Math.floor(Math.random() * 8) + 1;
-    setCaptchaProblem({ num1: n1, num2: n2, ans: n1 + n2 });
+    const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    let code = "";
+    for (let i = 0; i < 5; i++) {
+      code += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    setCaptchaCode(code);
     setCaptchaInput("");
+
+    if (typeof document !== "undefined") {
+      const canvas = document.createElement("canvas");
+      canvas.width = 150;
+      canvas.height = 44;
+      const ctx = canvas.getContext("2d");
+      if (ctx) {
+        // Background gradient
+        const grad = ctx.createLinearGradient(0, 0, 150, 44);
+        grad.addColorStop(0, "#f1f5f9");
+        grad.addColorStop(1, "#e2e8f0");
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, 150, 44);
+
+        // Security noise lines
+        for (let i = 0; i < 5; i++) {
+          ctx.strokeStyle = ["#94a3b8", "#cbd5e1", "#818cf8", "#a5b4fc"][i % 4];
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.moveTo(Math.random() * 150, Math.random() * 44);
+          ctx.bezierCurveTo(
+            Math.random() * 150, Math.random() * 44,
+            Math.random() * 150, Math.random() * 44,
+            Math.random() * 150, Math.random() * 44
+          );
+          ctx.stroke();
+        }
+
+        // Noise dots
+        for (let i = 0; i < 40; i++) {
+          ctx.fillStyle = "#64748b";
+          ctx.fillRect(Math.random() * 150, Math.random() * 44, 1.5, 1.5);
+        }
+
+        // Draw rotated letters
+        ctx.textBaseline = "middle";
+        const colors = ["#1e293b", "#334155", "#4338ca", "#0f172a", "#3730a3"];
+        for (let i = 0; i < code.length; i++) {
+          ctx.save();
+          const angle = (Math.random() - 0.5) * 0.45;
+          const x = 20 + i * 24;
+          const y = 22 + (Math.random() - 0.5) * 6;
+          ctx.translate(x, y);
+          ctx.rotate(angle);
+          ctx.font = "bold 24px monospace";
+          ctx.fillStyle = colors[i % colors.length];
+          ctx.fillText(code[i], 0, 0);
+          ctx.restore();
+        }
+
+        setCaptchaImage(canvas.toDataURL("image/png"));
+      }
+    }
   };
 
-  // Lockout countdown timer
+  // Lockout countdown timer & initialize captcha
   useEffect(() => {
     generateCaptcha();
     const storedLockout = parseInt(localStorage.getItem("admin_lockout_until") || "0", 10);
@@ -188,7 +245,7 @@ export default function AdminPage() {
     }
 
     // Verify Captcha
-    if (parseInt(captchaInput.trim(), 10) !== captchaProblem.ans) {
+    if (captchaInput.trim().toUpperCase() !== captchaCode.toUpperCase()) {
       generateCaptcha();
       setAuthError("Verifikasi keamanan Captcha salah! Silakan coba lagi.");
       return;
@@ -775,16 +832,21 @@ export default function AdminPage() {
                     </button>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="px-4 py-2 bg-slate-100 border border-slate-200 rounded-xl font-mono font-bold text-slate-800 text-sm select-none tracking-widest shadow-inner">
-                      {captchaProblem.num1} + {captchaProblem.num2} = ?
+                    <div className="overflow-hidden rounded-xl border border-slate-200 bg-slate-100 select-none shadow-xs flex items-center justify-center min-w-[150px] h-[44px]">
+                      {captchaImage ? (
+                        <img src={captchaImage} alt="Visual Captcha" className="w-[150px] h-[44px] block object-contain" />
+                      ) : (
+                        <span className="font-mono font-bold tracking-widest text-slate-700 text-sm">{captchaCode || "CAPTCHA"}</span>
+                      )}
                     </div>
                     <input
-                      type="number"
+                      type="text"
                       value={captchaInput}
                       onChange={(e) => setCaptchaInput(e.target.value)}
                       required
-                      className="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100 outline-none text-sm text-slate-800 transition-all font-mono"
-                      placeholder="Jawaban angka"
+                      autoComplete="off"
+                      className="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100 outline-none text-sm text-slate-800 transition-all font-mono uppercase tracking-wider"
+                      placeholder="Ketik kode di gambar"
                     />
                   </div>
                 </div>
@@ -1376,7 +1438,7 @@ export default function AdminPage() {
                       value={heroCard2.period || ""}
                       onChange={(e) => setHeroCard2({ ...heroCard2, period: e.target.value })}
                       className="w-full px-3 py-1.5 rounded-lg border border-slate-200 text-xs"
-                      placeholder="2022 â€” Sekarang"
+                      placeholder="2022 - Sekarang"
                     />
                   </div>
                 </div>
@@ -1846,7 +1908,7 @@ export default function AdminPage() {
                         type: "work",
                         role: "",
                         organization: "",
-                        period: "2026 â€” Sekarang",
+                        period: "2026 - Sekarang",
                         location: "Yogyakarta",
                         description: "",
                         tags: [],
@@ -1948,7 +2010,7 @@ export default function AdminPage() {
                         value={editingExp.period}
                         onChange={(e) => setEditingExp({ ...editingExp, period: e.target.value })}
                         className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs"
-                        placeholder="2024 â€” Sekarang"
+                        placeholder="2024 - Sekarang"
                       />
                     </div>
                     <div className="sm:col-span-2">
