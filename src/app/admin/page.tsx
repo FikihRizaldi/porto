@@ -18,6 +18,47 @@ export default function AdminPage() {
   const [authError, setAuthError] = useState<string | null>(null);
   const [authLoading, setAuthLoading] = useState<boolean>(false);
 
+  // Security: Math Captcha & Intruder Lockout State
+  const [captchaProblem, setCaptchaProblem] = useState<{ num1: number; num2: number; ans: number }>({ num1: 3, num2: 4, ans: 7 });
+  const [captchaInput, setCaptchaInput] = useState<string>("");
+  const [failedAttempts, setFailedAttempts] = useState<number>(0);
+  const [lockoutUntil, setLockoutUntil] = useState<number>(0);
+  const [lockoutRemaining, setLockoutRemaining] = useState<number>(0);
+
+  const generateCaptcha = () => {
+    const n1 = Math.floor(Math.random() * 8) + 2;
+    const n2 = Math.floor(Math.random() * 8) + 1;
+    setCaptchaProblem({ num1: n1, num2: n2, ans: n1 + n2 });
+    setCaptchaInput("");
+  };
+
+  // Lockout countdown timer
+  useEffect(() => {
+    generateCaptcha();
+    const storedLockout = parseInt(localStorage.getItem("admin_lockout_until") || "0", 10);
+    if (storedLockout > Date.now()) {
+      setLockoutUntil(storedLockout);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!lockoutUntil || lockoutUntil <= Date.now()) {
+      setLockoutRemaining(0);
+      return;
+    }
+    const updateTimer = () => {
+      const diff = Math.max(0, Math.ceil((lockoutUntil - Date.now()) / 1000));
+      setLockoutRemaining(diff);
+      if (diff <= 0) {
+        setLockoutUntil(0);
+        localStorage.removeItem("admin_lockout_until");
+      }
+    };
+    updateTimer();
+    const timer = setInterval(updateTimer, 1000);
+    return () => clearInterval(timer);
+  }, [lockoutUntil]);
+
   // Forgot Password Emergency Reset State
   const [showForgot, setShowForgot] = useState<boolean>(false);
   const [recoveryKey, setRecoveryKey] = useState<string>("");
@@ -139,6 +180,20 @@ export default function AdminPage() {
   // Login handler
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
+
+    // Check if system is locked due to suspicious attempts
+    if (lockoutRemaining > 0) {
+      setAuthError("Akses dikunci sementara (" + lockoutRemaining + "s) demi keamanan. Terdeteksi aktivitas mencurigakan!");
+      return;
+    }
+
+    // Verify Captcha
+    if (parseInt(captchaInput.trim(), 10) !== captchaProblem.ans) {
+      generateCaptcha();
+      setAuthError("Verifikasi keamanan Captcha salah! Silakan coba lagi.");
+      return;
+    }
+
     setAuthLoading(true);
     setAuthError(null);
 
@@ -159,6 +214,8 @@ export default function AdminPage() {
         const json = await res.json();
         sessionStorage.setItem("admin_token", json.token);
         setToken(json.token);
+        setFailedAttempts(0);
+        localStorage.removeItem("admin_lockout_until");
         showToast("Selamat datang di Admin Control Center!");
       } else {
         const savedPass = localStorage.getItem("fikih_custom_admin_pass") || "admin123";
@@ -166,10 +223,24 @@ export default function AdminPage() {
           const fallbackToken = "standalone-admin-session-" + Date.now();
           sessionStorage.setItem("admin_token", fallbackToken);
           setToken(fallbackToken);
+          setFailedAttempts(0);
+          localStorage.removeItem("admin_lockout_until");
           showToast("Selamat datang di Admin Control Center!");
         } else {
-          const json = res ? await res.json().catch(() => null) : null;
-          throw new Error((json && json.error) || "Gagal masuk. Periksa username dan password.");
+          // Increment failed attempts & trigger security warning / lockout
+          const nextAttempts = failedAttempts + 1;
+          setFailedAttempts(nextAttempts);
+          generateCaptcha();
+
+          if (nextAttempts >= 3) {
+            const lockTime = Date.now() + 60 * 1000; // Lock for 60 seconds
+            setLockoutUntil(lockTime);
+            localStorage.setItem("admin_lockout_until", lockTime.toString());
+            throw new Error("PERINGATAN KEAMANAN: Percobaan login gagal 3 kali! Akses dikunci selama 60 detik untuk mencegah akses ilegal.");
+          } else {
+            const sisa = 3 - nextAttempts;
+            throw new Error("Peringatan: Username atau password salah! Percobaan tersisa: " + sisa + " kali sebelum sistem dikunci.");
+          }
         }
       }
     } catch (err: any) {
@@ -690,12 +761,40 @@ export default function AdminPage() {
                   />
                 </div>
 
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                      Verifikasi Keamanan (Captcha)
+                    </label>
+                    <button
+                      type="button"
+                      onClick={generateCaptcha}
+                      className="text-[11px] font-semibold text-indigo-600 hover:text-indigo-800 cursor-pointer"
+                    >
+                      Acak Ulang
+                    </button>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="px-4 py-2 bg-slate-100 border border-slate-200 rounded-xl font-mono font-bold text-slate-800 text-sm select-none tracking-widest shadow-inner">
+                      {captchaProblem.num1} + {captchaProblem.num2} = ?
+                    </div>
+                    <input
+                      type="number"
+                      value={captchaInput}
+                      onChange={(e) => setCaptchaInput(e.target.value)}
+                      required
+                      className="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100 outline-none text-sm text-slate-800 transition-all font-mono"
+                      placeholder="Jawaban angka"
+                    />
+                  </div>
+                </div>
+
                 <button
                   type="submit"
-                  disabled={authLoading}
+                  disabled={authLoading || lockoutRemaining > 0}
                   className="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md transition-all active:scale-[0.98] cursor-pointer disabled:opacity-50 text-sm mt-2"
                 >
-                  {authLoading ? "Memverifikasi..." : "Masuk ke Dashboard"}
+                  {lockoutRemaining > 0 ? `Terkunci (${lockoutRemaining}s)` : authLoading ? "Memverifikasi..." : "Masuk ke Dashboard"}
                 </button>
               </form>
             </>
