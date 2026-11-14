@@ -6,11 +6,11 @@ export async function PUT(req: Request, { params }: { params: Promise<{ slug: st
     const { slug } = await params;
     const path = slug.join("/");
     const body = await req.json().catch(() => ({}));
-    const current = getPortfolioData();
+    const current = await getPortfolioData();
 
     if (path === "profile") {
       current.profile = { ...current.profile, ...body };
-      savePortfolioData(current);
+      await savePortfolioData(current);
       return NextResponse.json({ message: "Profil berhasil diperbarui!" });
     }
 
@@ -24,7 +24,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ slug: st
         cards.push({ index: cardIndex, ...body });
       }
       current.heroCards = cards;
-      savePortfolioData(current);
+      await savePortfolioData(current);
       return NextResponse.json({ message: `Kartu #${cardIndex} berhasil disimpan!` });
     }
 
@@ -33,7 +33,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ slug: st
       current.projects = (current.projects || []).map((p) =>
         p.id === projId || p.id === body.id ? { ...p, ...body } : p
       );
-      savePortfolioData(current);
+      await savePortfolioData(current);
       return NextResponse.json({ message: "Proyek berhasil diperbarui!" });
     }
 
@@ -42,7 +42,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ slug: st
       current.skillCategories = (current.skillCategories || []).map((s) =>
         s.id === skillId || s.id === body.id ? { ...s, ...body } : s
       );
-      savePortfolioData(current);
+      await savePortfolioData(current);
       return NextResponse.json({ message: "Kategori keahlian berhasil diperbarui!" });
     }
 
@@ -51,7 +51,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ slug: st
       current.experiences = (current.experiences || []).map((e) =>
         e.id === expId || e.id === body.id ? { ...e, ...body } : e
       );
-      savePortfolioData(current);
+      await savePortfolioData(current);
       return NextResponse.json({ message: "Riwayat berhasil diperbarui!" });
     }
 
@@ -60,13 +60,13 @@ export async function PUT(req: Request, { params }: { params: Promise<{ slug: st
       current.certificates = (current.certificates || []).map((c) =>
         c.id === certId || c.id === body.id ? { ...c, ...body } : c
       );
-      savePortfolioData(current);
+      await savePortfolioData(current);
       return NextResponse.json({ message: "Sertifikat berhasil diperbarui!" });
     }
 
     if (path === "contact") {
       current.contact = { ...current.contact, ...body };
-      savePortfolioData(current);
+      await savePortfolioData(current);
       return NextResponse.json({ message: "Kontak berhasil diperbarui!" });
     }
 
@@ -81,33 +81,33 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
     const { slug } = await params;
     const path = slug.join("/");
     const body = await req.json().catch(() => ({}));
-    const current = getPortfolioData();
+    const current = await getPortfolioData();
 
     if (path === "projects") {
       const newProj = { ...body, id: Date.now() };
       current.projects = [newProj, ...(current.projects || [])];
-      savePortfolioData(current);
+      await savePortfolioData(current);
       return NextResponse.json({ message: "Proyek berhasil ditambahkan!", id: newProj.id });
     }
 
     if (path === "skills") {
       const newSkill = { ...body, id: Date.now() };
       current.skillCategories = [...(current.skillCategories || []), newSkill];
-      savePortfolioData(current);
+      await savePortfolioData(current);
       return NextResponse.json({ message: "Kategori keahlian berhasil ditambahkan!", id: newSkill.id });
     }
 
     if (path === "experience") {
       const newExp = { ...body, id: Date.now() };
       current.experiences = [newExp, ...(current.experiences || [])];
-      savePortfolioData(current);
+      await savePortfolioData(current);
       return NextResponse.json({ message: "Riwayat berhasil ditambahkan!", id: newExp.id });
     }
 
     if (path === "certificates") {
       const newCert = { ...body, id: Date.now() };
       current.certificates = [...(current.certificates || []), newCert];
-      savePortfolioData(current);
+      await savePortfolioData(current);
       return NextResponse.json({ message: "Sertifikat berhasil ditambahkan!", id: newCert.id });
     }
 
@@ -122,29 +122,29 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ slug:
     const { slug } = await params;
     const section = slug[0];
     const id = parseInt(slug[1] || "0", 10);
-    const current = getPortfolioData();
+    const current = await getPortfolioData();
 
     if (section === "projects") {
       current.projects = (current.projects || []).filter((p) => p.id !== id);
-      savePortfolioData(current);
+      await savePortfolioData(current);
       return NextResponse.json({ message: "Proyek berhasil dihapus." });
     }
 
     if (section === "skills") {
       current.skillCategories = (current.skillCategories || []).filter((s) => s.id !== id);
-      savePortfolioData(current);
+      await savePortfolioData(current);
       return NextResponse.json({ message: "Kategori keahlian berhasil dihapus." });
     }
 
     if (section === "experience") {
       current.experiences = (current.experiences || []).filter((e) => e.id !== id);
-      savePortfolioData(current);
+      await savePortfolioData(current);
       return NextResponse.json({ message: "Riwayat berhasil dihapus." });
     }
 
     if (section === "certificates") {
       current.certificates = (current.certificates || []).filter((c) => c.id !== id);
-      savePortfolioData(current);
+      await savePortfolioData(current);
       return NextResponse.json({ message: "Sertifikat berhasil dihapus." });
     }
 

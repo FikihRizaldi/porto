@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import { supabase } from "@/lib/supabase";
 
 export interface ProfileSettings {
   id?: number;
@@ -354,11 +355,27 @@ declare global {
   var __portfolioCache: PortfolioData | undefined;
 }
 
-export function getPortfolioData(): PortfolioData {
+export async function getPortfolioData(): Promise<PortfolioData> {
+  // 1. Coba ambil dari Supabase cloud (sumber kebenaran permanen)
+  try {
+    const { data, error } = await supabase
+      .from("portfolio_data")
+      .select("content")
+      .eq("id", "main")
+      .single();
+
+    if (!error && data && data.content && data.content.profile) {
+      globalThis.__portfolioCache = data.content as PortfolioData;
+      return data.content as PortfolioData;
+    }
+  } catch (err) {}
+
+  // 2. Cache in-memory
   if (globalThis.__portfolioCache) {
     return globalThis.__portfolioCache;
   }
 
+  // 3. Fallback file lokal
   const filePath = getStoragePath();
   if (fs.existsSync(filePath)) {
     try {
@@ -371,19 +388,31 @@ export function getPortfolioData(): PortfolioData {
     } catch (e) {}
   }
 
+  // 4. Default portfolio
   globalThis.__portfolioCache = defaultPortfolio;
   return defaultPortfolio;
 }
 
-export function savePortfolioData(data: PortfolioData): void {
+export async function savePortfolioData(data: PortfolioData): Promise<void> {
   const dataWithTime = {
     ...data,
     _lastUpdated: (data as any)._lastUpdated || Date.now(),
   };
+
+  // 1. Simpan ke cache in-memory
   globalThis.__portfolioCache = dataWithTime as any;
+
+  // 2. Simpan ke file lokal/tmp
   const filePath = getStoragePath();
   try {
     fs.writeFileSync(filePath, JSON.stringify(dataWithTime, null, 2), "utf-8");
   } catch (e) {}
+
+  // 3. Simpan permanen ke Supabase Cloud
+  try {
+    await supabase
+      .from("portfolio_data")
+      .upsert({ id: "main", content: dataWithTime });
+  } catch (err) {}
 }
 
