@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import Link from "next/link";
@@ -235,7 +235,7 @@ export default function AdminPage() {
         });
       } catch (err) {}
 
-      await refreshPortfolio();
+      // refreshPortfolio skipped: updatePortfolioLocally already persists to localStorage
       showToast("Profil & Hero berhasil disimpan!");
     } catch (err: any) {
       alert(err.message);
@@ -272,7 +272,7 @@ export default function AdminPage() {
         });
       } catch (err) {}
 
-      await refreshPortfolio();
+      // refreshPortfolio skipped: updatePortfolioLocally already persists to localStorage
       showToast(`Kartu #${cardIndex} berhasil disimpan!`);
     } catch (err: any) {
       alert(err.message);
@@ -311,7 +311,7 @@ export default function AdminPage() {
         });
       } catch (err) {}
 
-      await refreshPortfolio();
+      // refreshPortfolio skipped: updatePortfolioLocally already persists to localStorage
       setEditingProject(null);
       setIsNewProject(false);
       showToast("Proyek berhasil disimpan!");
@@ -336,7 +336,7 @@ export default function AdminPage() {
         headers: { Authorization: `Bearer ${token}` },
       });
     } catch (err) {}
-    await refreshPortfolio();
+    // refreshPortfolio skipped: updatePortfolioLocally already persists to localStorage
     showToast("Proyek berhasil dihapus.");
   };
 
@@ -369,7 +369,7 @@ export default function AdminPage() {
         });
       } catch (err) {}
 
-      await refreshPortfolio();
+      // refreshPortfolio skipped: updatePortfolioLocally already persists to localStorage
       setEditingSkill(null);
       showToast("Kategori keahlian berhasil disimpan!");
     } catch (err: any) {
@@ -393,7 +393,7 @@ export default function AdminPage() {
         headers: { Authorization: `Bearer ${token}` },
       });
     } catch (err) {}
-    await refreshPortfolio();
+    // refreshPortfolio skipped: updatePortfolioLocally already persists to localStorage
     showToast("Kategori keahlian berhasil dihapus.");
   };
 
@@ -426,7 +426,7 @@ export default function AdminPage() {
         });
       } catch (err) {}
 
-      await refreshPortfolio();
+      // refreshPortfolio skipped: updatePortfolioLocally already persists to localStorage
       setEditingExp(null);
       setIsNewExp(false);
       showToast("Riwayat berhasil disimpan!");
@@ -451,7 +451,7 @@ export default function AdminPage() {
         headers: { Authorization: `Bearer ${token}` },
       });
     } catch (err) {}
-    await refreshPortfolio();
+    // refreshPortfolio skipped: updatePortfolioLocally already persists to localStorage
     showToast("Riwayat berhasil dihapus.");
   };
 
@@ -484,7 +484,7 @@ export default function AdminPage() {
         });
       } catch (err) {}
 
-      await refreshPortfolio();
+      // refreshPortfolio skipped: updatePortfolioLocally already persists to localStorage
       setEditingCert(null);
       setIsNewCert(false);
       showToast("Sertifikat berhasil disimpan!");
@@ -509,7 +509,7 @@ export default function AdminPage() {
         headers: { Authorization: `Bearer ${token}` },
       });
     } catch (err) {}
-    await refreshPortfolio();
+    // refreshPortfolio skipped: updatePortfolioLocally already persists to localStorage
     showToast("Sertifikat berhasil dihapus.");
   };
 
@@ -534,7 +534,7 @@ export default function AdminPage() {
         });
       } catch (err) {}
 
-      await refreshPortfolio();
+      // refreshPortfolio skipped: updatePortfolioLocally already persists to localStorage
       showToast("Informasi kontak berhasil disimpan!");
     } catch (err: any) {
       alert(err.message);
@@ -671,7 +671,7 @@ export default function AdminPage() {
           ) : (
             <>
               <div className="mb-5 p-3.5 rounded-xl bg-indigo-50/80 border border-indigo-100 text-indigo-900 text-xs leading-relaxed">
-                <span className="font-bold block mb-1">🔑 Pemulihan Darurat (Master Key)</span>
+                <span className="font-bold block mb-1">ðŸ”‘ Pemulihan Darurat (Master Key)</span>
                 Gunakan <strong>MASTER_RECOVERY_KEY</strong> yang tersimpan di file <code className="bg-white px-1.5 py-0.5 rounded border border-indigo-200 font-mono text-[11px]">backend/.env</code> server Anda. Hanya pemilik server yang memegang kunci ini.
               </div>
 
@@ -760,7 +760,7 @@ export default function AdminPage() {
               href="/"
               className="text-xs font-semibold text-indigo-600 hover:text-indigo-800 transition-colors"
             >
-              ← Kembali ke Portofolio Publik
+              â† Kembali ke Portofolio Publik
             </Link>
           </div>
         </div>
@@ -825,14 +825,14 @@ export default function AdminPage() {
             Navigasi Konten
           </p>
           {[
-            { id: "profile", label: "Profil & Hero", icon: "👤" },
-            { id: "hero", label: "Kartu Hero Deck (5)", icon: "🗂️" },
-            { id: "projects", label: "Proyek (Portfolio)", icon: "🚀" },
-            { id: "skills", label: "Keahlian (Skills)", icon: "⚡" },
-            { id: "experience", label: "Pengalaman & Edu", icon: "🎓" },
-            { id: "certificates", label: "Sertifikat", icon: "📜" },
-            { id: "contact", label: "Kontak & Footer", icon: "📬" },
-            { id: "password", label: "Keamanan Akun", icon: "🔒" },
+            { id: "profile", label: "Profil & Hero", icon: "ðŸ‘¤" },
+            { id: "hero", label: "Kartu Hero Deck (5)", icon: "ðŸ—‚ï¸" },
+            { id: "projects", label: "Proyek (Portfolio)", icon: "ðŸš€" },
+            { id: "skills", label: "Keahlian (Skills)", icon: "âš¡" },
+            { id: "experience", label: "Pengalaman & Edu", icon: "ðŸŽ“" },
+            { id: "certificates", label: "Sertifikat", icon: "ðŸ“œ" },
+            { id: "contact", label: "Kontak & Footer", icon: "ðŸ“¬" },
+            { id: "password", label: "Keamanan Akun", icon: "ðŸ”’" },
           ].map((tab) => (
             <button
               key={tab.id}
@@ -1182,7 +1182,7 @@ export default function AdminPage() {
                       value={heroCard2.period || ""}
                       onChange={(e) => setHeroCard2({ ...heroCard2, period: e.target.value })}
                       className="w-full px-3 py-1.5 rounded-lg border border-slate-200 text-xs"
-                      placeholder="2022 — Sekarang"
+                      placeholder="2022 â€” Sekarang"
                     />
                   </div>
                 </div>
@@ -1481,7 +1481,7 @@ export default function AdminPage() {
                         </div>
                         <div>
                           <span className="text-[10px] font-semibold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full">
-                            {p.category} · {p.year}
+                            {p.category} Â· {p.year}
                           </span>
                           <h4 className="text-sm font-bold text-slate-900 mt-1">{p.title}</h4>
                           <p className="text-xs text-slate-500 line-clamp-1">{p.desc}</p>
@@ -1652,7 +1652,7 @@ export default function AdminPage() {
                         type: "work",
                         role: "",
                         organization: "",
-                        period: "2026 — Sekarang",
+                        period: "2026 â€” Sekarang",
                         location: "Yogyakarta",
                         description: "",
                         tags: [],
@@ -1712,7 +1712,7 @@ export default function AdminPage() {
                         value={editingExp.period}
                         onChange={(e) => setEditingExp({ ...editingExp, period: e.target.value })}
                         className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs"
-                        placeholder="2024 — Sekarang"
+                        placeholder="2024 â€” Sekarang"
                       />
                     </div>
                     <div className="sm:col-span-2">
@@ -1764,7 +1764,7 @@ export default function AdminPage() {
                     >
                       <div>
                         <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full">
-                          {item.type === "education" ? "Pendidikan" : "Kerja"} · {item.period}
+                          {item.type === "education" ? "Pendidikan" : "Kerja"} Â· {item.period}
                         </span>
                         <h4 className="text-sm font-bold text-slate-900 mt-1">{item.role}</h4>
                         <p className="text-xs text-indigo-600 font-semibold">{item.organization}</p>
@@ -1936,7 +1936,7 @@ export default function AdminPage() {
                           <Image src={cert.image || "/placeholder.png"} alt={cert.title} fill className="object-cover" />
                         </div>
                         <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-50 text-indigo-700">
-                          {cert.badge} · {cert.year}
+                          {cert.badge} Â· {cert.year}
                         </span>
                         <h4 className="text-sm font-bold text-slate-900 mt-1 leading-snug">{cert.title}</h4>
                         <p className="text-xs text-slate-500 mt-0.5">{cert.issuer}</p>
@@ -2036,7 +2036,7 @@ export default function AdminPage() {
                     value={profileForm.available_tagline || ""}
                     onChange={(e) => setProfileForm({ ...profileForm, available_tagline: e.target.value })}
                     className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs"
-                    placeholder="Available for Opportunities · Yogyakarta (UTC+7)"
+                    placeholder="Available for Opportunities Â· Yogyakarta (UTC+7)"
                   />
                 </div>
 
