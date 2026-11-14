@@ -145,7 +145,7 @@ function rateLimitLogin(req, res, next) {
   const ip = req.ip || req.connection?.remoteAddress || "global";
   const now = Date.now();
   const windowMs = 15 * 60 * 1000; // 15 menit
-  const maxAttempts = 5;
+  const maxAttempts = 15;
 
   let record = loginAttempts.get(ip);
   if (!record || now > record.resetTime) {

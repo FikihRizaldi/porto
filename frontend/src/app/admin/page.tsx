@@ -140,13 +140,16 @@ export default function AdminPage() {
     setAuthLoading(true);
     setAuthError(null);
 
+    const cleanUser = username.trim().toLowerCase();
+    const cleanPass = password.trim();
+
     try {
       let res;
       try {
         res = await fetch(`${API_BASE}/auth/login`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username, password }),
+          body: JSON.stringify({ username: cleanUser, password: cleanPass }),
         });
       } catch (err) {}
 
@@ -157,7 +160,7 @@ export default function AdminPage() {
         showToast("Selamat datang di Admin Control Center!");
       } else {
         const savedPass = localStorage.getItem("fikih_custom_admin_pass") || "admin123";
-        if (username === "admin" && (password === savedPass || password === "admin123")) {
+        if (cleanUser === "admin" && (cleanPass === savedPass || cleanPass === "admin123")) {
           const fallbackToken = "standalone-admin-session-" + Date.now();
           localStorage.setItem("admin_token", fallbackToken);
           setToken(fallbackToken);
