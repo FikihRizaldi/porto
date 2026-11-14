@@ -163,6 +163,7 @@ const defaultPortfolio: PortfolioData = {
   ],
   projects: [
     {
+      id: 1,
       title: "Simo System",
       category: "Enterprise Web System",
       year: "2025",
@@ -174,6 +175,7 @@ const defaultPortfolio: PortfolioData = {
       live: "https://github.com/Arsyacoo/Simo-System.git",
     },
     {
+      id: 2,
       title: "MLOps Tarif Transportasi Online",
       category: "Machine Learning & DevOps",
       year: "2024",
@@ -185,6 +187,7 @@ const defaultPortfolio: PortfolioData = {
       live: "https://github.com/FikihRizaldi/Mini-Pipeline-MLOps-untuk-Estimasi-Tarif-Transportasi-Online",
     },
     {
+      id: 3,
       title: "Battery Health Decision Tree",
       category: "Data Science & Diagnostics",
       year: "2024",
@@ -196,6 +199,7 @@ const defaultPortfolio: PortfolioData = {
       live: "https://github.com/FikihRizaldi/Battery-Health-Decision-Tree-.git",
     },
     {
+      id: 4,
       title: "Upsite Web Platform",
       category: "Modern Web Platform",
       year: "2024",
@@ -207,6 +211,7 @@ const defaultPortfolio: PortfolioData = {
       live: "https://github.com/FikihRizaldi/UpSite",
     },
     {
+      id: 5,
       title: "Smart Learning Sora AI",
       category: "Generative AI Application",
       year: "2024",
@@ -220,18 +225,21 @@ const defaultPortfolio: PortfolioData = {
   ],
   skillCategories: [
     {
+      id: 1,
       title: "AI & Machine Learning",
       description: "Merancang model prediktif, integrasi LLM, dan automasi deployment pipeline MLOps siap produksi.",
       badge: "Machine Intelligence",
       skills: ["Python", "Scikit-Learn", "MLflow", "Docker", "FastAPI", "Google Gemini API", "LLMs", "Decision Trees"],
     },
     {
+      id: 2,
       title: "Modern Web Engineering",
       description: "Membangun antarmuka web interaktif yang cepat, scalable, ramah SEO, dan mengutamakan pengalaman pengguna.",
       badge: "Web Applications",
       skills: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Node.js", "HTML5 & Modern CSS", "RESTful APIs"],
     },
     {
+      id: 3,
       title: "Data Analytics & Infrastructure",
       description: "Mengolah dan memvalidasi dataset kompleks menjadi wawasan bisnis yang terstruktur dan dapat ditindaklanjuti.",
       badge: "Data & Systems",
@@ -240,6 +248,7 @@ const defaultPortfolio: PortfolioData = {
   ],
   experiences: [
     {
+      id: 1,
       type: "work",
       role: "Software Developer",
       organization: "Simo System",
@@ -249,6 +258,7 @@ const defaultPortfolio: PortfolioData = {
       tags: ["React", "Node.js", "Fullstack", "Management System"],
     },
     {
+      id: 2,
       type: "work",
       role: "Machine Learning & AI Developer",
       organization: "Independent & Research Projects",
@@ -258,6 +268,7 @@ const defaultPortfolio: PortfolioData = {
       tags: ["Python", "MLflow", "Docker", "FastAPI", "Scikit-Learn"],
     },
     {
+      id: 3,
       type: "work",
       role: "Fullstack Web Developer",
       organization: "Freelance & Collaborative Projects",
@@ -267,6 +278,7 @@ const defaultPortfolio: PortfolioData = {
       tags: ["Next.js", "TypeScript", "Tailwind CSS", "REST API"],
     },
     {
+      id: 4,
       type: "education",
       role: "S1 Informatika",
       organization: "Universitas AMIKOM Yogyakarta",
@@ -278,6 +290,7 @@ const defaultPortfolio: PortfolioData = {
   ],
   certificates: [
     {
+      id: 1,
       title: "Google Gemini AI Developer",
       issuer: "Lastmile x SmartBridge Indonesia",
       year: "2026",
@@ -287,6 +300,7 @@ const defaultPortfolio: PortfolioData = {
       image: "/Sertifikat/lastmile.jpeg",
     },
     {
+      id: 2,
       title: "Machine Learning Operations (MLOps) for Generative AI",
       issuer: "Google",
       year: "2026",
@@ -296,6 +310,7 @@ const defaultPortfolio: PortfolioData = {
       image: "/Sertifikat/Machine Learning Operations (MLOps) for Generative AI.png",
     },
     {
+      id: 3,
       title: "Prompt Design in Agent Platform",
       issuer: "Google",
       year: "2026",
@@ -305,6 +320,7 @@ const defaultPortfolio: PortfolioData = {
       image: "/Sertifikat/Prompt Design in Agent Platform.png",
     },
     {
+      id: 4,
       title: "CCNA: Introduction to Networks",
       issuer: "Cisco Networking Academy",
       year: "2025",

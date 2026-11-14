@@ -1016,6 +1016,24 @@ export default function AdminPage() {
                 </p>
               </div>
 
+              {/* CARD 0: FOTO PROFIL */}
+              <div className="p-5 rounded-2xl border border-slate-200 bg-slate-50/50 space-y-4">
+                <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+                  <div>
+                    <span className="text-[11px] font-bold text-indigo-600 uppercase tracking-wider">Kartu 1</span>
+                    <h4 className="text-sm font-bold text-slate-900">Foto Profil & Catatan</h4>
+                  </div>
+                  <button
+                    onClick={() => handleSaveHeroCard(0, { image: profileForm.avatar_url, note: profileForm.handwritten_note })}
+                    disabled={saving}
+                    className="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl cursor-pointer"
+                  >
+                    Simpan Kartu 1
+                  </button>
+                </div>
+                <p className="text-xs text-slate-500">Kartu ini otomatis menggunakan Foto Profil dan Catatan dari tab <strong>Profil & Hero</strong>.</p>
+              </div>
+
               {/* CARD 1: BIO QUOTE */}
               <div className="p-5 rounded-2xl border border-slate-200 bg-slate-50/50 space-y-4">
                 <div className="flex items-center justify-between border-b border-slate-200 pb-3">
@@ -1504,11 +1522,21 @@ export default function AdminPage() {
                   <h3 className="text-xl font-bold text-slate-900">Kelola Kategori Keahlian</h3>
                   <p className="text-xs text-slate-500">Edit kategori dan daftar teknologi yang Anda kuasai.</p>
                 </div>
+                {!editingSkill && (
+                  <button
+                    onClick={() => setEditingSkill({ title: "", badge: "", description: "", skills: [] })}
+                    className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl cursor-pointer"
+                  >
+                    + Tambah Kategori
+                  </button>
+                )}
               </div>
 
               {editingSkill ? (
                 <div className="p-6 rounded-2xl border-2 border-indigo-200 bg-indigo-50/20 space-y-4">
-                  <h4 className="text-sm font-bold text-slate-900">Edit Kategori Keahlian</h4>
+                  <h4 className="text-sm font-bold text-slate-900">
+                    {editingSkill.id ? `Edit: ${editingSkill.title}` : "Tambah Kategori Baru"}
+                  </h4>
                   <div className="space-y-3">
                     <div>
                       <label className="block text-xs font-bold text-slate-700 mb-1">Judul Kategori</label>
@@ -1584,6 +1612,12 @@ export default function AdminPage() {
                           className="px-3 py-1 text-xs font-bold rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer"
                         >
                           Edit
+                        </button>
+                        <button
+                          onClick={() => cat.id && handleDeleteSkill(cat.id)}
+                          className="px-3 py-1 text-xs font-bold rounded-lg border border-red-200 text-red-600 hover:bg-red-50 cursor-pointer"
+                        >
+                          Hapus
                         </button>
                       </div>
                       <p className="text-xs text-slate-500 mb-3">{cat.description}</p>
