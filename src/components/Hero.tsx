@@ -463,7 +463,7 @@ export default function Hero() {
 
                 {/* Featured wide LinkedIn button */}
                 <a
-                  href={card4?.linkedin_url || "https://linkedin.com/in/fikihrizaldi"}
+                  href={card4?.linkedin_url || "https://www.linkedin.com/in/muhamad-fikih-rizaldi-b04528374"}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="social-link linkedin-social"

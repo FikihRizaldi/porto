@@ -71,7 +71,7 @@ export default function Header() {
           </a>
 
           <a
-            href={data.contact?.linkedin_url || "https://linkedin.com/in/fikihrizaldi"}
+            href={data.contact?.linkedin_url || "https://www.linkedin.com/in/muhamad-fikih-rizaldi-b04528374"}
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-indigo-600 transition-colors"
@@ -142,7 +142,7 @@ export default function Header() {
               Resume (PDF)
             </a>
             <a
-              href="https://linkedin.com/in/fikihrizaldi"
+              href="https://www.linkedin.com/in/muhamad-fikih-rizaldi-b04528374"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setMobileOpen(false)}

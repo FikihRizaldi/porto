@@ -10,7 +10,7 @@ export default function Contact() {
   const [copied, setCopied] = useState(false);
   const email = data.contact?.email || "fikihrz31@gmail.com";
   const instagramUrl = data.contact?.instagram_url || "https://www.instagram.com/fikihrz_/";
-  const linkedinUrl = data.contact?.linkedin_url || "https://linkedin.com/in/fikihrizaldi";
+  const linkedinUrl = data.contact?.linkedin_url || "https://www.linkedin.com/in/muhamad-fikih-rizaldi-b04528374";
   const githubUrl = data.contact?.github_url || "https://github.com/FikihRizaldi";
 
   const handleCopy = () => {
