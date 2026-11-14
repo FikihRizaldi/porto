@@ -150,7 +150,7 @@ const defaultPortfolio: PortfolioData = {
       index: 4,
       type: "socials",
       title: "My socials",
-      linkedin_handle: "/in/muhamad-fikih-rizaldi-b04528374",
+      linkedin_handle: "LinkedIn Profile",
       linkedin_url: "https://www.linkedin.com/in/muhamad-fikih-rizaldi-b04528374",
       instagram_handle: "Instagram",
       instagram_url: "https://www.instagram.com/fikihrz_/",

@@ -468,10 +468,14 @@ export default function Hero() {
                   rel="noopener noreferrer"
                   className="social-link linkedin-social"
                 >
-                  <svg className="w-6 h-6 text-[#0A66C2] shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                  <svg className="w-5 h-5 sm:w-6 sm:h-6 text-[#0A66C2] shrink-0" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
                   </svg>
-                  <span>{card4?.linkedin_handle || "/in/fikihrizaldi"}</span>
+                  <span className="truncate max-w-[210px] text-sm sm:text-[15px]">
+                    {card4?.linkedin_handle && !card4.linkedin_handle.startsWith("/in/muhamad-fikih-rizaldi")
+                      ? card4.linkedin_handle
+                      : "LinkedIn Profile"}
+                  </span>
                 </a>
 
                 {/* 2x2 Grid Below */}

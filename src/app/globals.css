@@ -246,9 +246,11 @@ html.motion-paused .logo-track {
   white-space: nowrap;
   letter-spacing: -0.02em;
   margin-bottom: 12px;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   color: #ffffff;
+  overflow: hidden;
+  max-width: 100%;
 }
 
 .social-grid {
