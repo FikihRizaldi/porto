@@ -1796,15 +1796,15 @@ export default function AdminPage() {
                             }}
                             className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs bg-white font-medium text-slate-800"
                           >
-                            <option value="Pengalaman Kerja">💼 Pengalaman Kerja / Proyek</option>
-                            <option value="Pendidikan Formal">🎓 Pendidikan Formal</option>
-                            <option value="Bootcamp & Pelatihan">🚀 Bootcamp & Pelatihan Intensif</option>
-                            <option value="Sertifikasi Profesional">📜 Sertifikasi Profesional</option>
-                            <option value="Organisasi & Kepanitiaan">🏛️ Organisasi & Kepanitiaan</option>
-                            <option value="Magang / Internship">⚡ Magang / Internship</option>
-                            <option value="Riset & Publikasi">🔬 Riset & Publikasi</option>
-                            <option value="Penghargaan & Prestasi">🏆 Penghargaan & Prestasi</option>
-                            <option value="custom">✏️ Kategori Kustom (Ketik Sendiri)...</option>
+                            <option value="Pengalaman Kerja">Pengalaman Kerja / Proyek</option>
+                            <option value="Pendidikan Formal">Pendidikan Formal</option>
+                            <option value="Bootcamp & Pelatihan">Bootcamp & Pelatihan Intensif</option>
+                            <option value="Sertifikasi Profesional">Sertifikasi Profesional</option>
+                            <option value="Organisasi & Kepanitiaan">Organisasi & Kepanitiaan</option>
+                            <option value="Magang / Internship">Magang / Internship</option>
+                            <option value="Riset & Publikasi">Riset & Publikasi</option>
+                            <option value="Penghargaan & Prestasi">Penghargaan & Prestasi</option>
+                            <option value="custom">Kategori Kustom (Ketik Sendiri)...</option>
                           </select>
                         </div>
 
