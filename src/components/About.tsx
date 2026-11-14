@@ -3,6 +3,7 @@
 import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import { useLanguage } from "../context/Providers";
+import { usePortfolio } from "../context/PortfolioContext";
 
 function useReveal() {
   const ref = useRef<HTMLDivElement>(null);
@@ -29,7 +30,9 @@ function useReveal() {
 
 export default function About() {
   const { t } = useLanguage();
+  const { data } = usePortfolio();
   const { ref, visible } = useReveal();
+  const profile = data.profile;
 
   return (
     <section id="tentang" className="py-24 sm:py-28 bg-[#FAFAF9] relative overflow-hidden">
@@ -50,8 +53,8 @@ export default function About() {
               <div className="ring-1 ring-black/5 bg-black/[0.03] p-3 rounded-[2.5rem] shadow-xl shadow-stone-200">
                 <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden bg-[#E8E0D8] shadow-inner">
                   <Image
-                    src="/Profil.jpeg"
-                    alt="Muhamad Fikih Rizaldi"
+                    src={profile?.avatar_url || "/profile.png"}
+                    alt={profile?.name || "Muhamad Fikih Rizaldi"}
                     fill
                     sizes="(max-width: 1024px) 380px, 420px"
                     className="object-cover object-top hover:scale-105 transition-transform duration-500 ease-out"
@@ -61,8 +64,8 @@ export default function About() {
                   {/* Corner Badge */}
                   <div className="absolute bottom-4 left-4 right-4 bg-white/90 backdrop-blur-md rounded-2xl p-3 border border-white/60 shadow-lg flex items-center justify-between">
                     <div>
-                      <p className="text-xs font-bold text-[#1C1917]">Muhamad Fikih Rizaldi</p>
-                      <p className="text-[11px] text-[#78350F] font-medium">Informatika · AMIKOM</p>
+                      <p className="text-xs font-bold text-[#1C1917]">{profile?.name || "Muhamad Fikih Rizaldi"}</p>
+                      <p className="text-[11px] text-[#78350F] font-medium">{profile?.available_tagline || "Informatika · AMIKOM"}</p>
                     </div>
                     <span className="w-2.5 h-2.5 rounded-full bg-[#10B981] shadow-xs" title="Open to Work" />
                   </div>
@@ -92,7 +95,7 @@ export default function About() {
             {/* CTAs */}
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <a
-                href="/CV_Muhamad_Fikih_Rizaldi.pdf"
+                href={profile?.resume_url || "/CV_Muhamad_Fikih_Rizaldi.pdf"}
                 download
                 className="inline-flex items-center gap-2 bg-[#1C1917] text-[#FAFAF9] font-semibold text-xs sm:text-sm px-6 py-3 rounded-full hover:bg-[#292524] active:scale-95 transition-all shadow-sm"
               >

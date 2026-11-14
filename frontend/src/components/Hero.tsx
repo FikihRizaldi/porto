@@ -275,7 +275,7 @@ export default function Hero() {
                 className="rounded-[12px] overflow-hidden bg-gradient-to-b from-indigo-100/90 via-indigo-50/70 to-slate-100 border border-indigo-100/80 shadow-inner"
               >
                 <Image
-                  src={card0?.image || profile?.avatar_url || "/profile.png"}
+                  src={profile?.avatar_url || card0?.image || "/profile.png"}
                   alt={`${profile?.name || "Muhamad Fikih Rizaldi"} profile`}
                   fill
                   priority
@@ -286,7 +286,7 @@ export default function Hero() {
               </div>
 
               <p className="font-handwritten text-lg sm:text-xl text-slate-800 text-center mt-3 -rotate-1 select-none">
-                {card0?.note || profile?.handwritten_note || "Hey, nice to have you here"}
+                {profile?.handwritten_note || card0?.note || "Hey, nice to have you here"}
               </p>
             </article>
 

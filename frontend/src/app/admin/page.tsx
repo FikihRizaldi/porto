@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import Link from "next/link";
@@ -219,9 +219,27 @@ export default function AdminPage() {
     if (!token) return;
     setSaving(true);
     try {
+      const cards = [...(portfolioData.heroCards || [])];
+      const card0Idx = cards.findIndex((c) => c.index === 0);
+      if (card0Idx >= 0) {
+        cards[card0Idx] = {
+          ...cards[card0Idx],
+          image: profileForm.avatar_url,
+          note: profileForm.handwritten_note,
+        };
+      } else {
+        cards.unshift({
+          index: 0,
+          type: "photo",
+          image: profileForm.avatar_url,
+          note: profileForm.handwritten_note,
+        });
+      }
+
       updatePortfolioLocally({
         ...portfolioData,
         profile: profileForm,
+        heroCards: cards,
       });
 
       try {
@@ -233,8 +251,18 @@ export default function AdminPage() {
           },
           body: JSON.stringify(profileForm),
         });
+        await fetch(`${API_BASE}/portfolio/hero-cards/0`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            image: profileForm.avatar_url,
+            note: profileForm.handwritten_note,
+          }),
+        });
       } catch (err) {}
-
       // refreshPortfolio skipped: updatePortfolioLocally already persists to localStorage
       showToast("Profil & Hero berhasil disimpan!");
     } catch (err: any) {
