@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "rewrites": [
+    {
+      "source": "/api/backend/:path*",
+      "destination": "https://portopro-backend.onrender.com/api/:path*"
+    },
+    {
+      "source": "/uploads/:path*",
+      "destination": "https://portopro-backend.onrender.com/uploads/:path*"
+    }
+  ]
+}
