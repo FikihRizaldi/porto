@@ -47,7 +47,7 @@ export interface SkillCategory {
 
 export interface ExperienceItem {
   id?: number;
-  type: "work" | "education";
+  type: string;
   role: string;
   organization: string;
   period: string;

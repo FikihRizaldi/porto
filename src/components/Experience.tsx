@@ -155,9 +155,16 @@ export default function Experience() {
                 <div className="bg-white border border-slate-200/90 rounded-2xl p-6 sm:p-7 shadow-xs hover:shadow-md hover:border-indigo-200 transition-all duration-300">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2.5">
                     <div>
-                      <span className="text-xs font-semibold text-indigo-600 tracking-wide uppercase">
-                        {item.organization}
-                      </span>
+                      <div className="flex flex-wrap items-center gap-2 mb-1">
+                        <span className="text-xs font-semibold text-indigo-600 tracking-wide uppercase">
+                          {item.organization}
+                        </span>
+                        {item.type && (
+                          <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-indigo-50/80 border border-indigo-100 text-indigo-700">
+                            {item.type === "work" ? "Pengalaman Kerja" : item.type === "education" ? "Pendidikan Formal" : item.type}
+                          </span>
+                        )}
+                      </div>
                       <h4 className="text-lg sm:text-xl font-bold text-slate-900 leading-snug">
                         {item.role}
                       </h4>

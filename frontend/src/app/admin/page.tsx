@@ -1766,16 +1766,58 @@ export default function AdminPage() {
                   </h4>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1">Tipe</label>
-                      <select
-                        value={editingExp.type}
-                        onChange={(e) => setEditingExp({ ...editingExp, type: e.target.value as any })}
-                        className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs bg-white"
-                      >
-                        <option value="work">Pengalaman Kerja / Proyek</option>
-                        <option value="education">Pendidikan Formal</option>
-                      </select>
+                                        <div className="sm:col-span-2 bg-slate-50 p-3.5 rounded-2xl border border-slate-200/80 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <label className="block text-xs font-bold text-slate-800">
+                          Kategori / Tipe Riwayat
+                        </label>
+                        <span className="text-[11px] text-slate-500 font-medium">
+                          Pilih kategori preset atau ketik kategori kustom bebas
+                        </span>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <div>
+                          <select
+                            value={[
+                              "Pengalaman Kerja",
+                              "Pendidikan Formal",
+                              "Bootcamp & Pelatihan",
+                              "Sertifikasi Profesional",
+                              "Organisasi & Kepanitiaan",
+                              "Magang / Internship",
+                              "Riset & Publikasi",
+                              "Penghargaan & Prestasi",
+                            ].includes(editingExp.type) ? editingExp.type : (editingExp.type === "work" ? "Pengalaman Kerja" : editingExp.type === "education" ? "Pendidikan Formal" : "custom")}
+                            onChange={(e) => {
+                              if (e.target.value !== "custom") {
+                                setEditingExp({ ...editingExp, type: e.target.value });
+                              }
+                            }}
+                            className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs bg-white font-medium text-slate-800"
+                          >
+                            <option value="Pengalaman Kerja">💼 Pengalaman Kerja / Proyek</option>
+                            <option value="Pendidikan Formal">🎓 Pendidikan Formal</option>
+                            <option value="Bootcamp & Pelatihan">🚀 Bootcamp & Pelatihan Intensif</option>
+                            <option value="Sertifikasi Profesional">📜 Sertifikasi Profesional</option>
+                            <option value="Organisasi & Kepanitiaan">🏛️ Organisasi & Kepanitiaan</option>
+                            <option value="Magang / Internship">⚡ Magang / Internship</option>
+                            <option value="Riset & Publikasi">🔬 Riset & Publikasi</option>
+                            <option value="Penghargaan & Prestasi">🏆 Penghargaan & Prestasi</option>
+                            <option value="custom">✏️ Kategori Kustom (Ketik Sendiri)...</option>
+                          </select>
+                        </div>
+
+                        <div>
+                          <input
+                            type="text"
+                            value={editingExp.type || ""}
+                            onChange={(e) => setEditingExp({ ...editingExp, type: e.target.value })}
+                            className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs bg-white text-slate-800 focus:border-indigo-600 outline-none"
+                            placeholder="Ketik nama kategori bebas..."
+                          />
+                        </div>
+                      </div>
                     </div>
                     <div>
                       <label className="block text-xs font-bold text-slate-700 mb-1">Peran / Gelar</label>
@@ -1856,7 +1898,7 @@ export default function AdminPage() {
                     >
                       <div>
                         <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full">
-                          {item.type === "education" ? "Pendidikan" : "Kerja"} Â· {item.period}
+                          {(item.type === "education" ? "Pendidikan Formal" : item.type === "work" ? "Pengalaman Kerja" : (item.type || "Riwayat")) + " · " + item.period}
                         </span>
                         <h4 className="text-sm font-bold text-slate-900 mt-1">{item.role}</h4>
                         <p className="text-xs text-indigo-600 font-semibold">{item.organization}</p>
