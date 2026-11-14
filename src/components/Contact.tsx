@@ -8,6 +8,7 @@ export default function Contact() {
   const { t } = useLanguage();
   const { data } = usePortfolio();
   const [copied, setCopied] = useState(false);
+  const [mailFeedback, setMailFeedback] = useState(false);
   const email = data.contact?.email || "fikihrz31@gmail.com";
   const instagramUrl = data.contact?.instagram_url || "https://www.instagram.com/fikihrz_/";
   const linkedinUrl = data.contact?.linkedin_url || "https://www.linkedin.com/in/muhamad-fikih-rizaldi-b04528374";
@@ -17,6 +18,24 @@ export default function Contact() {
     navigator.clipboard.writeText(email);
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);
+  };
+
+  const handleSendEmail = (e: React.MouseEvent) => {
+    e.preventDefault();
+    try {
+      navigator.clipboard.writeText(email);
+    } catch (err) {}
+    setMailFeedback(true);
+    setTimeout(() => setMailFeedback(false), 4000);
+
+    // 1. Open Gmail Web compose in a new tab (works instantly for all desktop Chrome/Edge users)
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}`;
+    window.open(gmailUrl, "_blank", "noopener,noreferrer");
+
+    // 2. Also trigger native mailto
+    setTimeout(() => {
+      window.location.href = `mailto:${email}`;
+    }, 300);
   };
 
   return (
@@ -60,16 +79,24 @@ export default function Contact() {
                 </button>
               </div>
 
-              <a
-                href={`mailto:${email}`}
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm rounded-2xl shadow-lg transition-all active:scale-95 text-center"
+              <button
+                type="button"
+                onClick={handleSendEmail}
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm rounded-2xl shadow-lg transition-all active:scale-95 text-center cursor-pointer whitespace-nowrap"
               >
-                <span>{t("contact.sendMail")}</span>
+                <span>{mailFeedback ? "✓ Membuka Email..." : t("contact.sendMail")}</span>
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                 </svg>
-              </a>
+              </button>
             </div>
+
+            {mailFeedback && (
+              <p className="text-xs text-indigo-300 -mt-6 mb-8 animate-fade-in flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span>Alamat email ({email}) telah disalin ke clipboard! Membuka Gmail / Email App...</span>
+              </p>
+            )}
 
             {/* Social Channels Row */}
             <div className="pt-8 border-t border-white/10 flex flex-wrap items-center gap-6 text-sm text-slate-400">
