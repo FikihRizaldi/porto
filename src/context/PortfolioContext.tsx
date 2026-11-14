@@ -365,12 +365,7 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
 
   const fetchPortfolio = useCallback(async () => {
     try {
-      // Try local rewrite proxy first, fallback to direct port 5000
-      let res = await fetch("/api/backend/portfolio", { cache: "no-store" });
-      if (!res.ok) {
-        res = await fetch("http://localhost:5000/api/portfolio", { cache: "no-store" });
-      }
-
+      const res = await fetch("/api/backend/portfolio", { cache: "no-store" });
       if (res.ok) {
         const json = await res.json();
         if (json && json.profile) {
@@ -378,28 +373,23 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
           try {
             localStorage.setItem("fikih_portfolio_data", JSON.stringify(json));
           } catch (e) {}
+          setIsLoading(false);
+          return;
         }
-      } else {
-        // Fallback to local storage if API is not active
-        try {
-          const saved = localStorage.getItem("fikih_portfolio_data");
-          if (saved) {
-            const parsed = JSON.parse(saved);
-            if (parsed && parsed.profile) setData(parsed);
-          }
-        } catch (e) {}
       }
-    } catch (err) {
-      try {
-        const saved = localStorage.getItem("fikih_portfolio_data");
-        if (saved) {
-          const parsed = JSON.parse(saved);
-          if (parsed && parsed.profile) setData(parsed);
+    } catch (err) {}
+
+    // Fallback to localStorage
+    try {
+      const saved = localStorage.getItem("fikih_portfolio_data");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed && parsed.profile) {
+          setData(parsed);
         }
-      } catch (e) {}
-    } finally {
-      setIsLoading(false);
-    }
+      }
+    } catch (e) {}
+    setIsLoading(false);
   }, []);
 
   useEffect(() => {
