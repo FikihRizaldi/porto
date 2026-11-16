@@ -96,6 +96,8 @@ export default function About() {
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <a
                 href={profile?.resume_url || "/CV_Muhamad_Fikih_Rizaldi.pdf"}
+                target="_blank"
+                rel="noopener noreferrer"
                 download
                 className="inline-flex items-center gap-2 bg-[#1C1917] text-[#FAFAF9] font-semibold text-xs sm:text-sm px-6 py-3 rounded-full hover:bg-[#292524] active:scale-95 transition-all shadow-sm"
               >

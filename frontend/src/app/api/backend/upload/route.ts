@@ -15,18 +15,26 @@ export async function POST(req: Request) {
     }
 
     const isPdf = file.type === "application/pdf" || file.name?.endsWith(".pdf");
+    const isImage = file.type?.startsWith("image/") || /\.(png|jpe?g|webp|gif|svg)$/i.test(file.name || "");
 
-    // For PDFs: upload to Supabase Storage and return a public URL
-    if (isPdf && supabaseKey) {
+    // Upload files (PDF or Images) to Supabase Storage and return clean public URL
+    if ((isPdf || isImage) && supabaseKey) {
       try {
         const bytes = await file.arrayBuffer();
         const buffer = Buffer.from(bytes);
-        const fileName = `cv/CV_Muhamad_Fikih_Rizaldi.pdf`;
+        const ext = file.name?.split(".").pop()?.toLowerCase() || (isPdf ? "pdf" : "png");
+        const folder = isPdf ? "cv" : "images";
+        const sanitizedName = file.name
+          ? file.name.replace(/[^a-zA-Z0-9._-]/g, "_")
+          : `${Date.now()}.${ext}`;
+        const fileName = isPdf ? `cv/CV_Muhamad_Fikih_Rizaldi.pdf` : `${folder}/${Date.now()}_${sanitizedName}`;
+
+        const contentType = file.type || (isPdf ? "application/pdf" : `image/${ext === "jpg" ? "jpeg" : ext}`);
 
         const { error } = await supabase.storage
           .from("porto-files")
           .upload(fileName, buffer, {
-            contentType: "application/pdf",
+            contentType,
             upsert: true,
           });
 
@@ -36,7 +44,7 @@ export async function POST(req: Request) {
             .getPublicUrl(fileName);
 
           return NextResponse.json({
-            message: "CV berhasil diunggah ke Supabase Storage",
+            message: "File berhasil diunggah ke Supabase Storage",
             url: publicData.publicUrl,
           });
         }
