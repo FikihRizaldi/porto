@@ -512,7 +512,7 @@ export default function Hero() {
 
                   {/* Resume PDF */}
                   <a
-                    href={card4?.resume_url || profile?.resume_url || "/CV_Muhamad_Fikih_Rizaldi.pdf"}
+                    href={profile?.resume_url || card4?.resume_url || "/CV_Muhamad_Fikih_Rizaldi.pdf"}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="social-link group"

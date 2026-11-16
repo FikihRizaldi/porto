@@ -367,6 +367,14 @@ export default function AdminPage() {
         });
       }
 
+      const card4Idx = cards.findIndex((c) => c.index === 4);
+      if (card4Idx >= 0) {
+        cards[card4Idx] = {
+          ...cards[card4Idx],
+          resume_url: profileForm.resume_url,
+        };
+      }
+
       updatePortfolioLocally({
         ...portfolioData,
         profile: profileForm,
